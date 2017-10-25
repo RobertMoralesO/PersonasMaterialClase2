@@ -3,6 +3,7 @@ package com.example.android.personasmaterialclase;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -34,6 +35,21 @@ public class CrearPersonas extends AppCompatActivity {
         fotos.add(R.drawable.images);
         fotos.add(R.drawable.images2);
         fotos.add(R.drawable.images3);
+    }
+
+    public boolean validar(){
+        String aux = res.getString(R.string.mensaje_error_vacio);
+        if(Metodos.validar_aux(txtCedula,aux))return false;
+        else if(Metodos.validar_aux(txtNombre,aux))return false;
+        else if(Metodos.validar_aux(txtApellido,aux))return false;
+        return true;
+    }
+
+    public void limpiar(){
+        txtCedula.setText("");
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtCedula.requestFocus();
     }
 
 

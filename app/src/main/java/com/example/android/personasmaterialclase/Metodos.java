@@ -1,5 +1,7 @@
 package com.example.android.personasmaterialclase;
 
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,5 +15,14 @@ public class Metodos {
         Random r = new Random();
         fotoSeleccionada = r.nextInt(fotos.size());
         return fotos.get(fotoSeleccionada);
+    }
+
+    public static boolean validar_aux(TextView t, String mensaje){
+        if(t.getText().toString().isEmpty()){
+            t.requestFocus();
+            t.setError(mensaje);
+            return true;
+        }
+        return  false;
     }
 }
