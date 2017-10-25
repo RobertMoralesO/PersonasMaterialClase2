@@ -1,9 +1,12 @@
 package com.example.android.personasmaterialclase;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -44,12 +47,34 @@ public class CrearPersonas extends AppCompatActivity {
         else if(Metodos.validar_aux(txtApellido,aux))return false;
         return true;
     }
+    public void agregar(View v){
+        if(validar()){
+            Persona p = new Persona(Metodos.fotoAleatoria(fotos),
+                    txtCedula.getText().toString(),
+                    txtNombre.getText().toString(),
+                    txtApellido.getText().toString());
 
+            p.guardar();
+            Snackbar.make(v,res.getString(R.string.mensaje_persona_guardada),Snackbar.LENGTH_LONG)
+                    .setAction("Action",null).show();
+            limpiar();
+
+        }
+    }
+
+    public void limpiar(View v){
+        limpiar();
+    }
     public void limpiar(){
         txtCedula.setText("");
         txtNombre.setText("");
         txtApellido.setText("");
         txtCedula.requestFocus();
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 
