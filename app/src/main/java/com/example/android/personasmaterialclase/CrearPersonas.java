@@ -1,6 +1,7 @@
 package com.example.android.personasmaterialclase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -72,10 +73,18 @@ public class CrearPersonas extends AppCompatActivity {
         txtCedula.requestFocus();
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
-
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
+    public void onBackPressed(){
+        finish();
+        Intent i = new Intent(CrearPersonas.this,Principal.class);
+        startActivity(i);
+    }
+
+
+
 
 
 }
