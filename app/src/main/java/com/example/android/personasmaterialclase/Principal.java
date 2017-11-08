@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Principal extends AppCompatActivity {
+public class Principal extends AppCompatActivity implements AdaptadorPersona.OnPersonaClickListener {
     private RecyclerView listado;
     private ArrayList<Persona> personas;
     private Resources res;
@@ -40,9 +41,9 @@ public class Principal extends AppCompatActivity {
 
         listado = (RecyclerView)findViewById(R.id.lstPersonas);
         res = this.getResources();
-        //personas = Datos.obtenerPersonas();
+
         personas = new ArrayList<>();
-        adapter = new AdaptadorPersona(this,personas);
+        adapter = new AdaptadorPersona(this.getApplicationContext(),personas,this);
         llm = new LinearLayoutManager(this);
         listado.setLayoutManager(llm);
         listado.setAdapter(adapter);
@@ -77,4 +78,18 @@ public class Principal extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onPersonaClick(Persona p) {
+       Intent i = new Intent(Principal.this,ModificarPersona.class);
+        Bundle b = new Bundle();
+        b.putString("id",p.getId());
+        b.putString("cedula",p.getCedula());
+        b.putString("nombre",p.getNombre());
+        b.putString("apellido",p.getApellido());
+        b.putString("foto",p.getFoto());
+
+        i.putExtra("datos",b);
+        startActivity(i);
+
+    }
 }

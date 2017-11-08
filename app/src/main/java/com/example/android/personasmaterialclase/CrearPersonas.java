@@ -41,17 +41,12 @@ public class CrearPersonas extends AppCompatActivity {
 
         res = this.getResources();
 
-        inicializar_fotos();
+
         storageReference = FirebaseStorage.getInstance().getReference();
 
     }
 
-    public void inicializar_fotos(){
-        fotos = new ArrayList<>();
-        fotos.add(R.drawable.images);
-        fotos.add(R.drawable.images2);
-        fotos.add(R.drawable.images3);
-    }
+
 
     public boolean validar(){
         String aux = res.getString(R.string.mensaje_error_vacio);
