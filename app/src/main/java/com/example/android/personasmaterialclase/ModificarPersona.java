@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class ModificarPersona extends AppCompatActivity {
@@ -65,8 +66,11 @@ public class ModificarPersona extends AppCompatActivity {
 
         if(cedula.equals(b.getString("cedula"))){
             p.modificar();
+            if(uri!=null)subir_foto(b.getString("foto"));
             Snackbar.make(v, R.string.mensaje_persona_modificada_exitosamente,Snackbar.LENGTH_SHORT)
                     .setAction("action",null).show();
+
+
         }else{
             if(Metodos.existencia_persona(Datos.obtenerPersonas(),cedula)){
                 txtCedulaModificar.setError(getString(R.string.mensaje_error_cedula_existente));
@@ -74,8 +78,10 @@ public class ModificarPersona extends AppCompatActivity {
                 txtCedulaModificar.requestFocus();
             }else{
                 p.modificar();
+                if(uri!=null)subir_foto(b.getString("foto"));
                 Snackbar.make(v, R.string.mensaje_persona_modificada_exitosamente,Snackbar.LENGTH_SHORT)
                         .setAction("action",null).show();
+
             }
         }
     }
@@ -113,6 +119,34 @@ public class ModificarPersona extends AppCompatActivity {
         finish();
         Intent i = new Intent(ModificarPersona.this,Principal.class);
         startActivity(i);
+    }
+
+    public void seleccionar_foto(View v){
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i,getString(R.string.mensaje_seleccion_imagen)),1);
+    }
+
+    protected void onActivityResult(int requesCode, int resultCode, Intent data){
+        super.onActivityResult(requesCode,resultCode,data);
+        if(requesCode==1){
+            uri = data.getData();
+            if(uri!=null){
+                fotoModificar.setImageURI(uri);
+            }
+        }
+    }
+
+    public void subir_foto(String foto){
+        StorageReference childRef = storageReference.child(foto);
+        UploadTask uploadTask = childRef.putFile(uri);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                onBackPressed();
+            }
+        });
     }
 
 }
